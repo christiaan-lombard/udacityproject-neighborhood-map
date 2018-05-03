@@ -12,10 +12,10 @@ let WebpackConfig = {
     },
     module: {
         rules: [
-            {
-                test: /\.html$/,
-                loader: 'html-loader'
-            },
+            // {
+            //     test: /\.html$/,
+            //     loader: 'html-loader'
+            // },
             {
                 test: /\.scss$/,
                 loaders: ['style-loader', 'css-loader', 'sass-loader']
@@ -27,12 +27,7 @@ let WebpackConfig = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['babel-preset-env']
-                    }
-                }
+                loader: 'babel-loader'
             }
         ],
     },
@@ -41,13 +36,13 @@ let WebpackConfig = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             hash: true,
-            // inject: false
+            inject: false
         })
     ],
     devServer: {
         port: 8000,
         contentBase: 'src/',
-        inline: true
+        // inline: true
     },
 };
 

@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6 {
         background-color: $app-bg-bar;
         // margin: 12px;
         border-radius: 2px;
-        @include elevate(2);
+        @include elevate(4);
 
 
         .header {
@@ -55,7 +55,13 @@ h1, h2, h3, h4, h5, h6 {
             h1 {
                 font-size: 2em;
                 margin: 0;
-                padding: 12px;
+                padding: 12px 12px 0 12px;
+            }
+
+            p {
+                font-size: 12px;
+                margin: 0;
+                padding: 0 12px 12px 12px;
             }
 
         }

@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/christiaan-lombard/udacityproject-neighborhood-map#readme",
   "dependencies": {
-    "knockout": "^3.4.2"
+    "knockout": "^3.4.2",
+    "rxjs": "^6.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
