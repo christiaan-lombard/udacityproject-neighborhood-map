@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Oleo+Script:400,700|Open+Sans:400,700');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 @import './elevation';
 
@@ -44,9 +45,11 @@ h1, h2, h3, h4, h5, h6 {
     .sidebar {
         width: 300px;
         background-color: $app-bg-bar;
-        // margin: 12px;
+        display: flex;
+        flex-flow: column nowrap;
         border-radius: 2px;
         @include elevate(4);
+        max-height: 100%;
 
 
         .header {
@@ -65,6 +68,26 @@ h1, h2, h3, h4, h5, h6 {
             }
 
         }
+
+        .search-result {
+            margin: 12px;
+        }
+
+        .search-form {
+            display: flex;
+            flex: 0 0 36px;
+            input {
+                flex: 1 1 auto;
+            }
+            button {
+                width: 36px;
+                padding: 0;
+                border: none;
+                background: transparent;
+                cursor: pointer;
+            }
+        }
+
     }
 
     .main {
@@ -74,6 +97,39 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-.list {
+.location-list {
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    overflow-y: scroll;
+
+    .location-item {
+        display: flex;
+        flex-flow: row wrap;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+        background-color: $app-bg-content;
+        margin: 12px;
+        @include elevate(1);
+
+        .location-title {
+            font-size: 14px;
+            margin: 6px;
+            font-weight: 400;
+            width: 100%;
+        }
+
+        .location-picture {
+            width: 100%;
+        }
+
+        .location-address {
+            font-size: 12px;
+            margin: 6px;
+        }
+
+    }
 
 }

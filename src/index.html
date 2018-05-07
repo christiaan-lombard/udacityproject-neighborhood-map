@@ -14,11 +14,22 @@
                 <p>Where will your next beer take you?</p>
             </header>
 
-            <form>
-                <input type="text" name="search">
-                <button type="button">My Location</button>
-                <button type="button">Search</button>
+            <form class="search-form">
+                <input type="text" name="search" data-bind="textInput: searchText">
+                <button type="button" data-bind="click: geolocateUser">
+                    <i class="material-icons">my_location</i>
+                </button>
             </form>
+
+            <h2 class="search-result" data-bind="text: searchResult"></h2>
+
+            <ul class="location-list" data-bind="foreach: locations">
+                <li class="location-item">
+                    <img data-bind="attr: {src: photo_url}" class="location-picture">
+                    <h3 class="location-title" data-bind="text: name"></h3>
+                    <p class="location-address" data-bind="text: vicinity"></p>
+                </li>
+            </ul>
 
         </section>
         <main class="main" id="map">
@@ -27,6 +38,6 @@
     <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
         <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
     <% } %>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMeEXzBXlyiDrvaaeUNHpZqdrv14E--Po&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMeEXzBXlyiDrvaaeUNHpZqdrv14E--Po&callback=initMap&libraries=places" async defer></script>
 </body>
 </html>
