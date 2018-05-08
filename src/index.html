@@ -8,32 +8,43 @@
 </head>
 <body>
     <div class="app">
-        <section class="sidebar">
-            <header class="header">
-                <h1>Beerme</h1>
-                <p>Where will your next beer take you?</p>
-            </header>
 
-            <form class="search-form">
-                <input type="text" name="search" data-bind="textInput: searchText">
-                <button type="button" data-bind="click: geolocateUser">
-                    <i class="material-icons">my_location</i>
-                </button>
-            </form>
+        <header class="header">
+            <h1>Beerme</h1>
+            <p>Where will your next beer take you?</p>
 
-            <h2 class="search-result" data-bind="text: searchResult"></h2>
+        </header>
 
-            <ul class="location-list" data-bind="foreach: locations">
-                <li class="location-item">
-                    <img data-bind="attr: {src: photo_url}" class="location-picture">
-                    <h3 class="location-title" data-bind="text: name"></h3>
-                    <p class="location-address" data-bind="text: vicinity"></p>
-                </li>
-            </ul>
-
+        <section class="search-form">
+            <input type="text" name="search" data-bind="textInput: searchText" placeholder="Enter city name..."  autocomplete="off">
+            <button type="button" data-bind="click: geolocateUser">
+                <i class="material-icons">my_location</i>
+            </button>
         </section>
-        <main class="main" id="map">
+
+        <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
+            <li class="location-item" data-bind="text: address, click: $parent.focusLocation"></li>
+        </ul>
+
+        <main class="main">
+            <div class="map" id="map"></div>
+            <section class="places-section" data-bind="if: showPlaces">
+                <!-- <button type="button" class="toggle-button" data-bind="click: togglePlaces">
+                    <i class="material-icons">list</i>
+                </button> -->
+                <ul class="place-list" data-bind="foreach: places">
+                    <li class="place-item" data-bind="css: {focused: isFocused}, click: $parent.focusPlace">
+                        <div data-bind="if: photoUrl, style: {backgroundImage: 'url('+photoUrl+')'}" class="place-picture"></div>
+                        <div class="place-detail">
+                            <h3 class="place-title" data-bind="text: name"></h3>
+                            <p class="place-address" data-bind="text: vicinity"></p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
         </main>
+
+
     </div>
     <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
         <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>

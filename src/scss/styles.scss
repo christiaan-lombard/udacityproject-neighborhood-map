@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Oleo+Script:400,700|Open+Sans:400,700');
+//@import url('https://fonts.googleapis.com/css?family=Oleo+Script:400,700|Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Bevan|Roboto:400,700');
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 @import './elevation';
@@ -6,6 +7,10 @@
 /*
 font-family: 'Open Sans', sans-serif;
 font-family: 'Oleo Script', cursive;
+
+font-family: 'Bevan', cursive;
+font-family: 'Roboto', sans-serif;
+
 */
 $app-txt-light: rgba(255,255,255,0.87);
 $app-txt-dark: rgba(0,0,0,0.87);
@@ -16,9 +21,10 @@ $app-bg-main: #FAFAFA;
 $app-bg-content: #FFFFFF;
 
 $app-bg-primary: #E65100;
+$app-bg-accent: #EF6C00;
 
 html, body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     min-height: 100%;
@@ -27,14 +33,18 @@ html, body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Oleo Script', cursive;
-    font-weight: 700;
+    font-family: 'Bevan', Arial, Helvetica, sans-serif;
+    font-weight: 400;
+}
+
+input {
+    font-family: 'Roboto', sans-serif;
 }
 
 .app {
 
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
     position: relative;
     align-content: stretch;
     align-items: stretch;
@@ -42,94 +52,154 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     height: 100%;
 
-    .sidebar {
-        width: 300px;
-        background-color: $app-bg-bar;
-        display: flex;
-        flex-flow: column nowrap;
-        border-radius: 2px;
-        @include elevate(4);
-        max-height: 100%;
+}
 
+.header {
+    display: flex;
+    background-color: $app-bg-primary;
+    color: $app-txt-light;
 
-        .header {
-            background-color: $app-bg-primary;
-            color: $app-txt-light;
-            h1 {
-                font-size: 2em;
-                margin: 0;
-                padding: 12px 12px 0 12px;
-            }
+    @include elevate(1);
 
-            p {
-                font-size: 12px;
-                margin: 0;
-                padding: 0 12px 12px 12px;
-            }
-
-        }
-
-        .search-result {
-            margin: 12px;
-        }
-
-        .search-form {
-            display: flex;
-            flex: 0 0 36px;
-            input {
-                flex: 1 1 auto;
-            }
-            button {
-                width: 36px;
-                padding: 0;
-                border: none;
-                background: transparent;
-                cursor: pointer;
-            }
-        }
-
+    h1 {
+        font-size: 1.6em;
+        margin: 0;
+        padding: 6px 12px 6px 12px;
     }
 
-    .main {
-        flex: 1 1 auto;
-        background-color: $app-bg-content;
+    p {
+        font-size: 12px;
+        margin: 0;
+        padding: 0 12px 12px 12px;
+        display: none;
     }
 
 }
 
+.search-form {
+    flex: 0 0 36px;
+    display: flex;
+    border-bottom: 1px solid $app-bg-status;
+    input {
+        border: none;
+        flex: 1 1 auto;
+        background: transparent;
+        padding-left: 12px;
+    }
+    button {
+        width: 36px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+}
+
+.main {
+    flex: 1 1 auto;
+    background-color: $app-bg-content;
+    display: flex;
+    flex-flow: column;
+}
+
+.map {
+    flex: 1 1 auto;
+}
+
 .location-list {
 
-    list-style: none;
-    margin: 0;
     padding: 0;
-
-    overflow-y: scroll;
+    margin: 0;
+    list-style: none;
 
     .location-item {
-        display: flex;
-        flex-flow: row wrap;
-        cursor: pointer;
-        border-bottom: 1px solid #eee;
-        background-color: $app-bg-content;
-        margin: 12px;
-        @include elevate(1);
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}
 
-        .location-title {
-            font-size: 14px;
-            margin: 6px;
-            font-weight: 400;
-            width: 100%;
+
+.places-section {
+    overflow-y: auto;
+    border-top: 1px solid $app-bg-status;
+    z-index: 10;
+    flex: 0 1 150px;
+
+    .toggle-button {
+        position: fixed;
+        bottom: 12px;
+        right: 12px;
+        margin: 0;
+        padding: 8px;
+        background-color: $app-bg-accent;
+        border: none;
+        border-radius: 50%;
+        @include elevate(2);
+
+        i {
+            display: block;
         }
+    }
 
-        .location-picture {
-            width: 100%;
-        }
+    .place-list {
 
-        .location-address {
-            font-size: 12px;
-            margin: 6px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .place-item {
+            display: flex;
+            flex-flow: row nowrap;
+            cursor: pointer;
+            border-bottom: 1px solid $app-bg-status;
+            background-color: $app-bg-content;
+            // margin: 12px;
+            // @include elevate(1);
+
+            .place-picture {
+                flex: 0 0 64px;
+                background-position: center center;
+                background-size: cover;
+            }
+
+            .place-detail {
+                flex: 1 1 auto;
+                .place-title {
+                    font-size: 14px;
+                    margin: 0;
+                    padding: 6px;
+                    font-weight: 700;
+                    font-family: 'Roboto', sans-serif;
+                }
+
+                .place-address {
+                    font-size: 12px;
+                    margin: 0;
+                    padding: 6px;
+                }
+            }
+
+            &:hover {
+                background-color: $app-bg-status;
+            }
+
         }
 
     }
+}
 
+@media screen and (min-width: 620px){
+
+    .main {
+        flex-flow: row nowrap;
+    }
+
+    .places-section {
+        order: 0;
+        flex: 0 0 250px;
+    }
+
+    .map {
+        order: 1;
+    }
 }
