@@ -16,10 +16,6 @@ import { LocationViewModel } from '../models/location';
  */
 export class GeocoderService {
     constructor(){
-        this._googleGeocoder = null;
-    }
-
-    init(){
         this._googleGeocoder = new google.maps.Geocoder();
     }
 

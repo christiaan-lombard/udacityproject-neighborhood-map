@@ -1,17 +1,27 @@
+/**
+ * @author base1.christiaan@gmail.com (Christiaan Lombard)
+ */
+
+import { MAP_STYLES } from './map-styles'
 
 
-
+ /**
+  * The MapService interacts with a google.maps.Map instance
+  *
+  */
 export class MapService {
 
     constructor(){
         this.markers = [];
         this.infoWindow = null;
-        this.map = null;
         this._locationListener = ()=>{};
-    }
 
-    init(map){
-        this.map = map;
+        this.map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 8,
+            disableDefaultUI: true,
+            styles: MAP_STYLES
+        });
         this.infoWindow = new google.maps.InfoWindow({});
     }
 
