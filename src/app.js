@@ -4,160 +4,353 @@ import { BehaviorSubject, Observable, combineLatest, of, Subject } from 'rxjs';
 import { map, debounceTime, filter, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { MAP_STYLES } from './map-styles'
 
-import { GeocoderService } from './geocoder-service';
-import { PlacesService } from './places-service';
-import { MapService } from './map-service';
+import { GeocoderService } from './services/geocoder-service';
+import { PlacesService } from './services/places-service';
+import { MapService } from './services/map-service';
+
+import { LocationViewModel } from './models/location';
+import { PlaceViewModel } from './models/place';
 
 
-class PlaceViewModel {
-    constructor(placeId, name, photoUrl, vicinity, geoLocation){
-        this.placeId = placeId;
-        this.name = name;
-        this.photoUrl = photoUrl;
-        this.vicinity = vicinity;
-        this.geoLocation = geoLocation;
-        this.isFocused = ko.observable(false);
-    }
-}
+class ExploreViewModel {
+    constructor(mapService, geocoderService, placesService){
 
-class LocationViewModel {
-    constructor(placeId, address, geoBounds, geoLocation, marker){
-        this.placeId = placeId;
-        this.geoBounds = geoBounds;
-        this.address = address;
-        this.geoLocation = geoLocation;
-        this.marker = marker;
-    }
-}
+        this._mapService = mapService;
+        this._geocoderService = geocoderService;
+        this._placesService = placesService;
+        this._filterText$ = new BehaviorSubject('');
+        this._filterTextSub = null;
 
-
-class AppViewModel {
-    constructor(map, geocoder, places){
-
-        this._map = map;
-        this._geocoder = geocoder;
-        this._places = places;
-
+        this.filterText = ko.observable('');
+        this.places = ko.observableArray([]);
         this.locations = ko.observableArray([]);
+        this.error = ko.observable(null);
+        this.isLocationsEmpty = ko.observable(false);
         this.focusedLocation = ko.observable(null);
         this.showLocations = ko.observable(false);
-        this.places = ko.observableArray([]);
         this.showPlaces = ko.observableArray(false);
-        this.lastSearch = '';
-        this.searchText = ko.observable('Paarl');
-
-        this.searchText.subscribe((search) => {
-            console.log('search', search);
-            this.searchLocation(search);
-        });
-
-        this._geocoder.results().subscribe(results => {
-            console.log('geocode results', results);
-            if(results.length > 0){
-
-                let models = results.map(result => {
-                    return new LocationViewModel(
-                        result.place_id,
-                        result.formatted_address,
-                        result.geometry.bounds,
-                        result.geometry.location
-                    );
-                });
-
-                this.locations(models);
-                console.log('LOCATIONS', models);
-                this.showLocations(true);
-            }else{
-                console.log('LOCATIONS empty');
-            }
-        });
-
-        this._places.results().subscribe(results => {
-
-            if(results && results.length > 0){
-                this._map.removeMarkers();
-
-                let places = results.map(result => {
-
-                    let photo = result.photos ? result.photos[0] : null;
-
-                    let geoLocation = {
-                        lat: result.geometry.location.lat(),
-                        lng: result.geometry.location.lng(),
-                    };
-
-                    let marker = this._map.addMarker(geoLocation);
-
-                    return new PlaceViewModel(
-                        result.place_id,
-                        result.name,
-                        photo ? photo.getUrl({maxHeight: 356, maxWidth: 356}) : null,
-                        result.vicinity,
-                        geoLocation,
-                        marker
-                    );
-                });
-                console.log('PLACES', places);
-                this.places(places);
-                this.showPlaces(true);
-            }
-
-        });
 
         this.focusLocation = (location) => {
             console.log('focus', location);
-            if(location.geoBounds){
-                this._map.fitBounds(location.geoBounds);
-                this._places.searchNearby(location.geoBounds);
-            }else{
-                this._map.setCenter(location.geoLocation);
-            }
+
+            this.focusedLocation(location);
+
+            this._mapService.setCenter(location.geoLocation);
+            this.searchPlaces(location.geoLocation);
+
             this.lastSearch = location.address;
-            this.searchText(location.address);
+            this.filterText(location.address);
             this.showLocations(false);
         };
 
         this.focusPlace = (place) => {
-            console.log(place);
+
+            this._placesService.getDetail(place)
+                               .subscribe(detail => {
+                                   this._mapService.showInfo(place, detail);
+                               });
         };
 
         this.togglePlaces = () => {
             this.showPlaces(!this.showPlaces());
         };
 
+        this.toggleButtonIcon = ko.computed(() => {
+            return this.showPlaces() ? 'keyboard_arrow_down' : 'keyboard_arrow_up';
+        });
+
+        this.toggleSave = (place) => {
+            if(place.isSaved()){
+                this._placesService.remove(place);
+            }else{
+                this._placesService.add(place);
+            }
+        };
+
+        this.filterText.subscribe(value => {
+            this._filterText$.next(value);
+        });
+
     }
 
+    init(){
 
-    geolocateUser(){
-        console.log('AppViewModel: geolocate user');
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(position => {
 
-                console.log('AppViewModel: user location %o', position);
+    }
 
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
+    searchLocations(text){
+        this._geocoderService
+            .geocode(text)
+            .subscribe(
+                locations => {
+                    console.log('locations', locations);
+                    this.isLocationsEmpty(locations.length === 0);
+                    this.locations(locations);
+                    this.showLocations(true);
+                    this.error(null);
+                },
+                error => {
+                    this.error('Oops! Error retreiving location results...');
+                    this.locations([]);
+                    this.showLocations(false);
+                    this.isLocationsEmpty(false);
+                }
+            );
+    }
 
-                this._map.setCenter(pos);
-                this.searchResult('My location');
+    searchPlaces(geoLocation){
+        this._placesService
+            .searchNear(geoLocation)
+            .subscribe(
+                places => {
+                    this.places(places);
+                    this.showPlaces(true);
+                    this.error(null);
+                    this.updateMapMarkers();
+                },
+                err => {
+                    this.places([]);
+                    this.showPlaces(false);
+                    this.error('Oops! Error retreiving places...');
+                    this.updateMapMarkers();
+                }
+            );
+    }
+
+    focus(){
+        this.updateMapMarkers();
+
+        // if(!this.focusedLocation()){
+        //     this.focusedLocation({
+
+        //     });
+        // }
+
+        this._filterTextSub =
+            this._filterText$
+                .pipe(
+                    debounceTime(500),
+                    filter(text => {
+
+                        let focused =
+                            this.focusedLocation() ?
+                                this.focusedLocation().address : null;
+
+                        return text &&
+                                text.length > 1 &&
+                                text !== focused;
+                    })
+                )
+                .subscribe(
+                    text => {
+                        this.searchLocations(text);
+                    }
+                );
+
+    }
+
+    blur(){
+        if(this._filterTextSub){
+            this._filterTextSub.unsubscribe();
+            this._filterTextSub = null;
+        }
+    }
+
+    updateMapMarkers(){
+        let places = this.places();
+        this._mapService.fitPlaces(places);
+        this._mapService.clearMarkers();
+
+        places.forEach(place => {
+            let marker = this._mapService.placeMarker(place);
+            marker.addListener('click', () => {
+                this.focusPlace(place);
             });
-        }
+        });
+    }
+}
+
+class FavoritesViewModel {
+    constructor(mapService, geocoderService, placesService){
+        this._mapService = mapService;
+        this._geocoderService = geocoderService;
+        this._placesService = placesService;
+
+        this._filterText$ = new BehaviorSubject('');
+        this._filterSub = null;
+
+        this.filterText = ko.observable('');
+        this.showPlaces = ko.observable(true);
+        this.isPlacesEmpty = ko.observable(false);
+        this.isFilteredEmpty = ko.observable(false);
+
+        this.places = ko.observableArray([]);
+
+        this.toggleButtonIcon = ko.computed(() => {
+            return this.showPlaces() ? 'keyboard_arrow_down' : 'keyboard_arrow_up';
+        });
+
+        this.togglePlaces = () => {
+            this.showPlaces(!this.showPlaces());
+        };
+
+        this.focusPlace = (place) => {
+
+            this._placesService.getDetail(place)
+                               .subscribe(detail => {
+                                   this._mapService.showInfo(place, detail);
+                               });
+
+        };
+
+        this.removePlace = (place) => {
+            this._placesService.remove(place);
+        };
+
+        this.filterText.subscribe(text => {
+            this._filterText$.next(text);
+        });
+
     }
 
-    searchLocation(search){
-        if(this.lastSearch !== search){
-            this.lastSearch = search;
-            this._geocoder.geocode(search);
-        }
+    init(){
+
     }
+
+    focus(){
+
+        let favorites$ = this._placesService.favorites();
+
+        this._filterSub = combineLatest(this._filterText$, favorites$)
+            .pipe(debounceTime(200))
+            .subscribe(changes => {
+
+                console.log('filter favorites', changes);
+
+                let [filterText, favorites] = changes;
+
+                if(favorites.length > 0){
+                    this.isPlacesEmpty(false);
+                }else{
+                    this.isPlacesEmpty(true);
+                }
+
+                if(filterText && filterText.length > 1){
+                    favorites = favorites
+                                    .filter(place => {
+                                        let target = filterText.toLowerCase();
+                                        let search = place.name.toLowerCase();
+                                        return search.search(target) !== -1;
+                                    });
+                    this.isFilteredEmpty(favorites.length === 0);
+                }else{
+                    this.isFilteredEmpty(false);
+                }
+
+                this.places(favorites);
+                this.showPlaces(true);
+                this.updateMapMarkers();
+            });
+    }
+
+    blur(){
+        if(this._filterSub){
+            this._filterSub.unsubscribe();
+        }
+        this._mapService.clearMarkers();
+        this._mapService.closeInfo();
+    }
+
+    applyFilter(){
+
+    }
+
+    updateMapMarkers(){
+        let places = this.places();
+        this._mapService.fitPlaces(places);
+        this._mapService.clearMarkers();
+
+        places.forEach(place => {
+            let marker = this._mapService.placeMarker(place);
+            marker.addListener('click', () => {
+                this.focusPlace(place);
+            });
+        });
+    }
+
+
+}
+
+
+class AppViewModel {
+    constructor(mapService, geocoderService, placesService){
+
+        this._mapService = mapService;
+        this._geocoderService = geocoderService;
+        this._placesService = placesService;
+
+        this.favorites = new FavoritesViewModel(mapService, geocoderService, placesService);
+        this.explore = new ExploreViewModel(mapService, geocoderService, placesService);
+
+        this.mode = ko.observable('explore');
+
+        this.switchModeExplore = () => {
+            console.log('switchModeExplore');
+            this.mode('explore');
+            this.favorites.blur();
+            this.explore.focus();
+        };
+
+        this.switchModeFavorite = () => {
+            console.log('switchModeFavorite');
+            this.mode('favorite');
+            this.explore.blur();
+            this.favorites.focus();
+        };
+
+    }
+
+    init(){
+        this.favorites.init();
+        this.explore.init();
+        this.switchModeExplore();
+    }
+
+    _resultToPlaceModel(result){
+        let photo = result.photos ? result.photos[0] : null;
+
+        let geoLocation = {
+            lat: result.geometry.location.lat(),
+            lng: result.geometry.location.lng(),
+        };
+
+        let marker = this._mapService.addMarker(geoLocation, result.name);
+
+        let place = new PlaceViewModel(
+            result.place_id,
+            result.name,
+            photo ? photo.getUrl({maxHeight: 356, maxWidth: 356}) : null,
+            result.vicinity,
+            geoLocation,
+            marker
+        );
+
+        marker.addListener('click', () => {
+            this.focusPlace(place);
+        });
+
+        return place;
+
+    }
+
+
 
 }
 
 let mapService = new MapService();
 let geocoderService = new GeocoderService();
 let placesService = new PlacesService();
+let app = new AppViewModel(mapService, geocoderService, placesService);
 
 window.initMap = function() {
 
@@ -169,10 +362,11 @@ window.initMap = function() {
     });
 
     mapService.init(map);
-    placesService.init(map);
+    // placesService.init(map);
     geocoderService.init();
+    app.init();
 };
 
 
-ko.applyBindings(new AppViewModel(mapService, geocoderService, placesService));
+ko.applyBindings(app);
 

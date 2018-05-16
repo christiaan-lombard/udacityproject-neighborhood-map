@@ -12,36 +12,92 @@
         <header class="header">
             <h1>Beerme</h1>
             <p>Where will your next beer take you?</p>
-
+            <nav class="nav">
+                <button class="nav-item" type="button" data-bind="click: switchModeExplore, css: {active: mode() == 'explore'}">
+                    <i class="material-icons">explore</i>
+                    <span>Explore</span>
+                </button>
+                <button class="nav-item" type="button" data-bind="click: switchModeFavorite, css: {active: mode() == 'favorite'}">
+                    <i class="material-icons">favorite</i>
+                    <span>Favorites</span>
+                </button>
+            </nav>
         </header>
 
-        <section class="search-form">
-            <input type="text" name="search" data-bind="textInput: searchText" placeholder="Enter city name..."  autocomplete="off">
-            <button type="button" data-bind="click: geolocateUser">
-                <i class="material-icons">my_location</i>
+        <section class="section-explore search-form" data-bind="with: explore, visible: mode() == 'explore'">
+            <label class="search-label" for="input_search_explore">
+                <i class="material-icons">search</i>
+            </label>
+            <input
+                id="input_search_explore"
+                class="input-search"
+                type="text"
+                name="search"
+                data-bind="textInput: filterText, hasFocus: $parent.mode() == 'explore'"
+                placeholder="Enter city name..."
+                autocomplete="off">
+            <button type="button" class="toggle-btn" data-bind="click: togglePlaces">
+                <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
             </button>
+            <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
+                <li class="location-item" data-bind="click: $parent.focusLocation">
+                    <span class="location-explore">Explore: </span>
+                    <span data-bind="text: address"></span>
+                </li>
+            </ul>
+            <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
+                <li class="place-item">
+                    <div class="place-info" data-bind="click: $parent.focusPlace">
+                        <h3 class="place-title" data-bind="text: name"></h3>
+                        <p class="place-address" data-bind="text: address"></p>
+                    </div>
+                    <button class="place-add-btn" data-bind="css: {added: isSaved}, click: $parent.toggleSave">
+                        <i class="material-icons">favorite</i>
+                    </button>
+                </li>
+            </ul>
+            <p class="info-message" data-bind="visible: isLocationsEmpty">
+                No locations match your search term.
+            </p>
+            <p class="error-message" data-bind="visible: error, text: error"></p>
         </section>
 
-        <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
-            <li class="location-item" data-bind="text: address, click: $parent.focusLocation"></li>
-        </ul>
+        <section class="section-favorite search-form" data-bind="with: favorites, visible: mode() == 'favorite'">
+            <label class="search-label" for="input_search_favorite">
+                <i class="material-icons">search</i>
+            </label>
+            <input
+                id="input_search_favorite"
+                class="input-search"
+                type="text"
+                name="search"
+                data-bind="textInput: filterText, hasFocus: $parent.mode() == 'favorite'"
+                placeholder="Filter favorites..."
+                autocomplete="off">
+            <button type="button" class="toggle-btn" data-bind="click: togglePlaces, visible: places().length">
+                <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
+            </button>
+            <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
+                <li class="place-item">
+                    <div class="place-info" data-bind="click: $parent.focusPlace">
+                        <h3 class="place-title" data-bind="text: name"></h3>
+                        <p class="place-address" data-bind="text: address"></p>
+                    </div>
+                    <button class="place-add-btn" data-bind="click: $parent.removePlace">
+                        <i class="material-icons">favorite_border</i>
+                    </button>
+                </li>
+            </ul>
+            <p class="info-message" data-bind="visible: isPlacesEmpty">
+                You have not added any favorites. Go Explore.
+            </p>
+            <p class="info-message" data-bind="visible: isFilteredEmpty">
+                No results for the given search term.
+            </p>
+        </section>
 
         <main class="main">
             <div class="map" id="map"></div>
-            <section class="places-section" data-bind="if: showPlaces">
-                <!-- <button type="button" class="toggle-button" data-bind="click: togglePlaces">
-                    <i class="material-icons">list</i>
-                </button> -->
-                <ul class="place-list" data-bind="foreach: places">
-                    <li class="place-item" data-bind="css: {focused: isFocused}, click: $parent.focusPlace">
-                        <div data-bind="if: photoUrl, style: {backgroundImage: 'url('+photoUrl+')'}" class="place-picture"></div>
-                        <div class="place-detail">
-                            <h3 class="place-title" data-bind="text: name"></h3>
-                            <p class="place-address" data-bind="text: vicinity"></p>
-                        </div>
-                    </li>
-                </ul>
-            </section>
         </main>
 
 

@@ -11,15 +11,30 @@ font-family: 'Oleo Script', cursive;
 font-family: 'Bevan', cursive;
 font-family: 'Roboto', sans-serif;
 
+mat-grey color scheme:
+    50: #fafafa
+    100: #f5f5f5
+    200: #eeeeee
+    300: #e0e0e0
+    400: #bdbdbd
+    500: #9e9e9e
+    600: #757575
+    700: #616161
+    800: #424242
+    900: #212121
+
+
 */
 $app-txt-light: rgba(255,255,255,0.87);
 $app-txt-dark: rgba(0,0,0,0.87);
+$app-txt-primary: #E65100;
 
-$app-bg-status: #E0E0E0;
-$app-bg-bar: #F5F5F5;
-$app-bg-main: #FAFAFA;
-$app-bg-content: #FFFFFF;
+$app-bg-status: #E0E0E0; // 300
+$app-bg-bar: #F5F5F5; // 100
+$app-bg-main: #FAFAFA; // 50
+$app-bg-content: #FFFFFF; // 0
 
+$app-bg-hover: #FFF3E0; // 50
 $app-bg-primary: #E65100;
 $app-bg-accent: #EF6C00;
 
@@ -41,6 +56,20 @@ input {
     font-family: 'Roboto', sans-serif;
 }
 
+i.material-icons {
+    vertical-align: middle;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+button {
+    outline: none;
+    border: none;
+    background: none;
+}
+
 .app {
 
     display: flex;
@@ -56,6 +85,7 @@ input {
 
 .header {
     display: flex;
+    flex: 0 0 auto;
     background-color: $app-bg-primary;
     color: $app-txt-light;
 
@@ -74,25 +104,174 @@ input {
         display: none;
     }
 
+    .nav {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: flex-end;
+        .nav-item {
+            background: none;
+            color: $app-txt-light;
+            border: none;
+            padding: 12px;
+            box-sizing: border-box;
+
+            &:hover {
+                background-color: rgba(white, 0.12);
+            }
+
+            i {
+                vertical-align: middle;
+            }
+
+            span {
+                display: none;
+            }
+
+            &.active {
+                background-color: rgba(white, 0.25);
+                border-bottom: 2px solid $app-txt-light;
+            }
+
+        }
+    }
+
 }
 
 .search-form {
-    flex: 0 0 36px;
+    flex-flow: row wrap;
+    align-items: center;
     display: flex;
     border-bottom: 1px solid $app-bg-status;
-    input {
+    background-color: $app-bg-bar;
+
+    .search-label {
+        display: block;
+        padding: 3px;
+    }
+
+    .input-search {
         border: none;
         flex: 1 1 auto;
         background: transparent;
         padding-left: 12px;
+        line-height: 36px;
+        vertical-align: middle;
     }
-    button {
-        width: 36px;
+
+    .toggle-btn {
         padding: 0;
         border: none;
-        background: transparent;
-        cursor: pointer;
+        i {
+            vertical-align: middle;
+            font-size: 36px;
+        }
+
+        &:hover {
+            background-color: $app-bg-hover;
+        }
+
     }
+
+    .place-list {
+        width: 100%;
+        overflow-y: auto;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 150px;
+
+        .place-item {
+            display: flex;
+            cursor: pointer;
+            border-bottom: 1px solid $app-bg-status;
+            background-color: $app-bg-content;
+            padding: 6px;
+
+            .place-info {
+                flex: 1 1 auto;
+                overflow: hidden;
+                .place-title {
+                    font-size: 14px;
+                    margin: 0;
+                    font-weight: 700;
+                    font-family: 'Roboto', sans-serif;
+                }
+                .place-address {
+                    font-size: 12px;
+                    margin: 0;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-width: 100%;
+                }
+            }
+
+            .place-add-btn {
+                padding: 0;
+                border-radius: 50%;
+                display: block;
+                width: 36px;
+                height: 36px;
+
+                &.added {
+                    color: $app-bg-primary;
+                }
+
+                &:hover {
+                    background-color: $app-bg-status;
+                }
+
+            }
+
+            &:hover {
+                background-color: $app-bg-hover;
+            }
+
+        }
+
+    }
+
+    .location-list {
+
+        width: 100%;
+
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        background-color: $app-bg-content;
+
+        .location-item {
+            cursor: pointer;
+            font-size: 14px;
+            padding: 6px 12px;
+
+            .location-explore {
+                color: $app-txt-primary;
+            }
+
+            &:hover {
+                background-color: $app-bg-hover;
+            }
+
+        }
+    }
+
+    .info-message {
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .error-message {
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+        padding: 6px;
+        color: $app-txt-light;
+        background-color: #F44336;
+    }
+
 }
 
 .main {
@@ -106,87 +285,11 @@ input {
     flex: 1 1 auto;
 }
 
-.location-list {
-
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    .location-item {
-        font-size: 14px;
-        padding: 6px 12px;
-    }
-}
 
 
-.places-section {
-    overflow-y: auto;
-    border-top: 1px solid $app-bg-status;
-    z-index: 10;
-    flex: 0 1 150px;
 
-    .toggle-button {
-        position: fixed;
-        bottom: 12px;
-        right: 12px;
-        margin: 0;
-        padding: 8px;
-        background-color: $app-bg-accent;
-        border: none;
-        border-radius: 50%;
-        @include elevate(2);
 
-        i {
-            display: block;
-        }
-    }
 
-    .place-list {
-
-        list-style: none;
-        margin: 0;
-        padding: 0;
-
-        .place-item {
-            display: flex;
-            flex-flow: row nowrap;
-            cursor: pointer;
-            border-bottom: 1px solid $app-bg-status;
-            background-color: $app-bg-content;
-            // margin: 12px;
-            // @include elevate(1);
-
-            .place-picture {
-                flex: 0 0 64px;
-                background-position: center center;
-                background-size: cover;
-            }
-
-            .place-detail {
-                flex: 1 1 auto;
-                .place-title {
-                    font-size: 14px;
-                    margin: 0;
-                    padding: 6px;
-                    font-weight: 700;
-                    font-family: 'Roboto', sans-serif;
-                }
-
-                .place-address {
-                    font-size: 12px;
-                    margin: 0;
-                    padding: 6px;
-                }
-            }
-
-            &:hover {
-                background-color: $app-bg-status;
-            }
-
-        }
-
-    }
-}
 
 @media screen and (min-width: 620px){
 
