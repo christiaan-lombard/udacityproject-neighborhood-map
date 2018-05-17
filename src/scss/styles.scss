@@ -1,17 +1,21 @@
-//@import url('https://fonts.googleapis.com/css?family=Oleo+Script:400,700|Open+Sans:400,700');
+/**
+ * @author base1.christiaan@gmail.com (Christiaan Lombard)
+ */
+
 @import url('https://fonts.googleapis.com/css?family=Bevan|Roboto:400,700');
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
 @import './elevation';
 
-/*
-font-family: 'Open Sans', sans-serif;
-font-family: 'Oleo Script', cursive;
+/**
+
+---- FONTS ----
 
 font-family: 'Bevan', cursive;
 font-family: 'Roboto', sans-serif;
 
-mat-grey color scheme:
+---- COLOR SCHEME ----
+
+mat-grey:
     50: #fafafa
     100: #f5f5f5
     200: #eeeeee
@@ -23,8 +27,21 @@ mat-grey color scheme:
     800: #424242
     900: #212121
 
+mat-orange:
+  50: #fff3e0
+  100: #ffe0b2
+  200: #ffcc80
+  300: #ffb74d
+  400: #ffa726
+  500: #ff9800
+  600: #fb8c00
+  700: #f57c00
+  800: #ef6c00
+  900: #e65100
 
 */
+
+// COLOR VARS
 $app-txt-light: rgba(255,255,255,0.87);
 $app-txt-dark: rgba(0,0,0,0.87);
 $app-txt-primary: #E65100;
@@ -37,6 +54,12 @@ $app-bg-content: #FFFFFF; // 0
 $app-bg-hover: #FFF3E0; // 50
 $app-bg-primary: #E65100;
 $app-bg-accent: #EF6C00;
+
+/**
+
+    User agent overrides
+
+*/
 
 html, body {
     font-family: 'Roboto', sans-serif;
@@ -70,6 +93,12 @@ button {
     background: none;
 }
 
+/**
+
+    App Container
+
+*/
+
 .app {
 
     display: flex;
@@ -82,6 +111,12 @@ button {
     height: 100%;
 
 }
+
+/**
+
+    Header - Logo and navigation
+
+*/
 
 .header {
     display: flex;
@@ -138,6 +173,22 @@ button {
 
 }
 
+/**
+    Main
+     - container for Search Form and Map
+*/
+.main {
+    flex: 1 1 auto;
+    background-color: $app-bg-content;
+    display: flex;
+    flex-flow: column;
+}
+
+
+/**
+    Search Form
+     - styles shared by explore and favorite sections
+*/
 .search-form {
     display: flex;
     flex-flow: column nowrap;
@@ -296,13 +347,10 @@ button {
 
 }
 
-.main {
-    flex: 1 1 auto;
-    background-color: $app-bg-content;
-    display: flex;
-    flex-flow: column;
-}
+/**
+    Map and InfoWindow
 
+*/
 .map {
     flex: 1 1 auto;
 
@@ -331,19 +379,13 @@ button {
 
 }
 
+/**
 
+    Responsive breakpoint at 650px
+    switches search to a sidebar
 
-
-
-
-
+*/
 @media screen and (min-width: 650px){
-
-    .app {
-        // flex-flow: row wrap;
-        // align-items: stretch;
-        // align-content: stretch;
-    }
 
     .main {
         flex-flow: row wrap;

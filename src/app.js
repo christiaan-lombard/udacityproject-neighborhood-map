@@ -1,8 +1,11 @@
+/**
+ * @author base1.christiaan@gmail.com (Christiaan Lombard)
+ */
+
 import './scss/styles.scss';
 import ko from 'knockout';
 import { BehaviorSubject, Observable, combineLatest, of, Subject } from 'rxjs';
 import { map, debounceTime, filter, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
-
 
 import { GeocoderService } from './services/geocoder-service';
 import { PlacesService } from './services/places-service';
@@ -14,7 +17,11 @@ import { PlaceViewModel } from './models/place';
 import { ExploreViewModel } from './components/explore';
 import { FavoritesViewModel } from './components/favorites';
 
+
 /**
+ *
+ * The AppViewModel acts as a router for sub components
+ *
  * One model to control them all and the darkness bind them
  *
  */
@@ -33,14 +40,15 @@ class AppViewModel {
         this._geocoderService = geocoderService;
         this._placesService = placesService;
 
+        // init sub components
         this.favorites = new FavoritesViewModel(mapService, geocoderService, placesService);
         this.explore = new ExploreViewModel(mapService, geocoderService, placesService);
 
+        // switching the mode selects which component
+        // to show, 'explore' or 'favorite'
         this.mode = ko.observable('explore');
 
-        /**
-         * 
-         */
+        // switch mode explore
         this.switchModeExplore = () => {
             console.log('switchModeExplore');
             this.mode('explore');
@@ -48,6 +56,7 @@ class AppViewModel {
             this.explore.focus();
         };
 
+        // switch mode favorite
         this.switchModeFavorite = () => {
             console.log('switchModeFavorite');
             this.mode('favorite');
@@ -55,42 +64,18 @@ class AppViewModel {
             this.favorites.focus();
         };
 
+        // default mode
         this.switchModeExplore();
     }
 
-
-    _resultToPlaceModel(result){
-        let photo = result.photos ? result.photos[0] : null;
-
-        let geoLocation = {
-            lat: result.geometry.location.lat(),
-            lng: result.geometry.location.lng(),
-        };
-
-        let marker = this._mapService.addMarker(geoLocation, result.name);
-
-        let place = new PlaceViewModel(
-            result.place_id,
-            result.name,
-            photo ? photo.getUrl({maxHeight: 356, maxWidth: 356}) : null,
-            result.vicinity,
-            geoLocation,
-            marker
-        );
-
-        marker.addListener('click', () => {
-            this.focusPlace(place);
-        });
-
-        return place;
-
-    }
-
-
-
 }
 
-
+/**
+ *  Ready-callback function for Google Maps JS
+ *
+ *  Initializes the application and services and applies knockout bindings
+ *
+ */
 window.initMap = function() {
     let mapService = new MapService();
     let geocoderService = new GeocoderService();

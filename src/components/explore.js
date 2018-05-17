@@ -1,11 +1,29 @@
+/**
+ * @author base1.christiaan@gmail.com (Christiaan Lombard)
+ */
+
+
 import { BehaviorSubject } from 'rxjs';
 import { map, debounceTime, filter, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import ko from 'knockout';
 import { RECOMMENDED_LOCATIONS } from '../services/locations-seed';
 
-
-
+/**
+ * The ExploreViewModel binds to .section-explore
+ *
+ * - Text input is geocoded to find a general location
+ * - Selecting a location initiates a search for venues near the location
+ *
+ */
 export class ExploreViewModel {
+
+    /**
+     * Make an ExploreViewModel instance
+     *
+     * @param {MapService} mapService
+     * @param {GeocoderService} geocoderService
+     * @param {PlacesService} placesService
+     */
     constructor(mapService, geocoderService, placesService){
 
         this._mapService = mapService;
@@ -23,13 +41,21 @@ export class ExploreViewModel {
         this.showLocations = ko.observable(false);
         this.showPlaces = ko.observableArray(false);
 
-        this.focusLocation = (location) => {
+        /**
+         * Focus on a location
+         *  - centers the map on the location
+         *  - initiates a search for places/venues
+         *
+         * @param {LocationViewModel} location
+         */
+        this.selectLocation = (location) => {
             console.log('focus', location);
 
             if(location.geoBounds){
                 this._mapService.fitBounds(location.geoBounds);
             }else{
                 this._mapService.setCenter(location.geoLocation);
+                this._mapService.setZoom(12);
             }
 
             this.focusedLocation(location);
@@ -38,9 +64,17 @@ export class ExploreViewModel {
             this.searchPlaces(location.geoLocation);
         };
 
-        this.focusPlace = (place) => {
+        /**
+         * Focus on a place
+         * - requests the place details
+         * - displays details on map
+         *
+         * @param {PlaceViewModel} place
+         */
+        this.selectPlace = (place) => {
 
-            this._mapService.setZoom(12);
+            this._mapService.setCenter(place.geoLocation);
+            this._mapService.setZoom(18);
 
             this._placesService.getDetail(place)
                                .subscribe(detail => {
@@ -48,14 +82,24 @@ export class ExploreViewModel {
                                });
         };
 
+        /**
+         * Toggle show/hide places
+         */
         this.togglePlaces = () => {
             this.showPlaces(!this.showPlaces());
         };
 
+        /**
+         * The computed button icon
+         */
         this.toggleButtonIcon = ko.computed(() => {
             return this.showPlaces() ? 'keyboard_arrow_down' : 'keyboard_arrow_up';
         });
 
+        /**
+         * Add/remove a place from favorites
+         * @param {PlaceViewModel} place
+         */
         this.toggleSave = (place) => {
             if(place.isSaved()){
                 this._placesService.remove(place);
@@ -70,6 +114,11 @@ export class ExploreViewModel {
 
     }
 
+    /**
+     * Search locations matching the given address
+     *
+     * @param {string} text
+     */
     searchLocations(text){
         this._geocoderService
             .geocode(text)
@@ -90,6 +139,11 @@ export class ExploreViewModel {
             );
     }
 
+    /**
+     * Search for places near the given geolocation
+     *
+     * @param {LatLng} geoLocation
+     */
     searchPlaces(geoLocation){
         this._placesService
             .searchNear(geoLocation)
@@ -109,9 +163,15 @@ export class ExploreViewModel {
             );
     }
 
+    /**
+     * Focus this component
+     *  - subscribes to change stream
+     */
     focus(){
         this.updateMapMarkers();
 
+        // subscribe to filter input changes,
+        // debounce input, initiate search
         this._filterTextSub =
             this._filterText$
                 .pipe(
@@ -133,13 +193,18 @@ export class ExploreViewModel {
                     }
                 );
 
+        // select a random location if not currently selected
         if(!this.focusedLocation()){
             let location = this._getRandomLocation();
-            this.focusLocation(location);
+            this.selectLocation(location);
         }
 
     }
 
+    /**
+     * Blur this component
+     *  - unsubscribes from change stream
+     */
     blur(){
         if(this._filterTextSub){
             this._filterTextSub.unsubscribe();
@@ -147,6 +212,9 @@ export class ExploreViewModel {
         }
     }
 
+    /**
+     * Update the map markers with the current places
+     */
     updateMapMarkers(){
         let places = this.places();
         this._mapService.fitPlaces(places);
@@ -155,11 +223,16 @@ export class ExploreViewModel {
         places.forEach(place => {
             let marker = this._mapService.placeMarker(place);
             marker.addListener('click', () => {
-                this.focusPlace(place);
+                this.selectPlace(place);
             });
         });
     }
 
+    /**
+     * Get a random location
+     *
+     * @private
+     */
     _getRandomLocation(){
         return RECOMMENDED_LOCATIONS[Math.floor(Math.random() * RECOMMENDED_LOCATIONS.length)];
     }

@@ -1,4 +1,6 @@
-
+/**
+ * @author base1.christiaan@gmail.com (Christiaan Lombard)
+ */
 
 export const PLACES_SEED = [
     {

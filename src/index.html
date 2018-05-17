@@ -47,14 +47,14 @@
                     </button>
                 </div>
                 <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
-                    <li class="location-item" data-bind="click: $parent.focusLocation">
+                    <li class="location-item" data-bind="click: $parent.selectLocation">
                         <span class="location-explore">Explore: </span>
                         <span data-bind="text: address"></span>
                     </li>
                 </ul>
                 <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
                     <li class="place-item">
-                        <div class="place-info" data-bind="click: $parent.focusPlace">
+                        <div class="place-info" data-bind="click: $parent.selectPlace">
                             <h3 class="place-title" data-bind="text: name"></h3>
                             <p class="place-address" data-bind="text: address"></p>
                         </div>
@@ -90,7 +90,7 @@
                 </div>
                 <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
                     <li class="place-item">
-                        <div class="place-info" data-bind="click: $parent.focusPlace">
+                        <div class="place-info" data-bind="click: $parent.selectPlace">
                             <h3 class="place-title" data-bind="text: name"></h3>
                             <p class="place-address" data-bind="text: address"></p>
                         </div>

@@ -1,18 +1,13 @@
+/**
+ * @author base1.christiaan@gmail.com (Christiaan Lombard)
+ */
+
 import { Observable } from 'rxjs';
 import { LocationViewModel } from '../models/location';
 
 /**
  *  GeocoderService wraps maps.google.Geocoder
- *  with rxjs observables. Geocode requests are
- *  debounced and filtered to prevent 'too frequent' or
- *  invalid requests.
- *
- *   - The result stream will start once init() is called
- *   - Post geocode requests to `geocode(address)`
- *   - Listen for results by subscribing to `results()`
- *   - Listen for errors by subscribing to `errors()`
- *
- *
+ *  with rxjs observables. Provides LocationViewModels
  *
  */
 export class GeocoderService {
@@ -56,6 +51,11 @@ export class GeocoderService {
         });
     }
 
+    /**
+     * Convert a geocode result to a LocationViewModel
+     *
+     * @param {any} result
+     */
     _resultToLocationModel(result){
         return new LocationViewModel(
             result.place_id,

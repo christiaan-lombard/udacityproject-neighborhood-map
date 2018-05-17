@@ -1,3 +1,7 @@
+/**
+ * Source: https://snazzymaps.com/style/79825/retro-eco
+ */
+
 export const MAP_STYLES = [
     {
         "featureType": "all",

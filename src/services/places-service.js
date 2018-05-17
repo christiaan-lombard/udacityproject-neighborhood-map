@@ -1,3 +1,7 @@
+/**
+ * @author base1.christiaan@gmail.com (Christiaan Lombard)
+ */
+
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
@@ -14,6 +18,9 @@ import { PlaceDetailViewModel } from '../models/place-detail';
  */
 export class PlacesService {
 
+    /**
+     * Make a PlacesService instance
+     */
     constructor(){
         /** @private @const {BehaviorSubject<PlaceViewModel[]>} */
         this._places$ = new BehaviorSubject([]);
