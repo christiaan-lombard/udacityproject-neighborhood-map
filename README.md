@@ -6,7 +6,7 @@ This project showcases a single page web application using Knockout and RxJS Obs
 
 **Features:**
  - Search for a location by address using Google Geocoder service
- - Find nearby places/venues, and get venue details using the Foursquare API
+ - Find nearby places/venues, and get venue details using the **Foursquare API**
  - Presents places/venues on a Google Map
  - Store/remove favorite places (stored in browser local storage)
 
@@ -14,6 +14,10 @@ This project showcases a single page web application using Knockout and RxJS Obs
 ## Installation
 
 Install dependencies with `npm install`
+
+## Run Application
+
+Either open `dist/index.html` in a brower or launch the dev server using `npm run serve`.
 
 ## Development Commands
 
@@ -23,10 +27,6 @@ This project uses Webpack 4 to bundle and serve resources.
  - `npm run watch` - Build dist and watch changes
  - `npm run dev` - Bundle development build to `/dist`
  - `npm run prod` - Bundle production build to `/dist`
-
-## Run Application
-
-Either open `dist/index.html` in a brower or launch the dev server using `npm run serve`.
 
 ## Screenshots
 
