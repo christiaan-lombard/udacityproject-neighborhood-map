@@ -88,6 +88,13 @@
                         <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
                     </button>
                 </div>
+                <p class="info-message" data-bind="visible: places().length === 0">
+                    You have not added any favorites. Go Explore.
+                </p>
+                <p class="info-message" data-bind="visible: filteredPlaces().length === 0">
+                    No results for the given search term.
+                </p>
+                <p class="error-message" data-bind="visible: error() !== null, text: error"></p>
                 <ul class="place-list" data-bind="visible: showPlaces, foreach: filteredPlaces">
                     <li class="place-item">
                         <div class="place-info" data-bind="click: $parent.selectPlace">
@@ -99,13 +106,6 @@
                         </button>
                     </li>
                 </ul>
-                <p class="info-message" data-bind="visible: places().length === 0">
-                    You have not added any favorites. Go Explore.
-                </p>
-                <p class="info-message" data-bind="visible: filteredPlaces().length === 0">
-                    No results for the given search term.
-                </p>
-                <p class="error-message" data-bind="visible: error() !== null, text: error"></p>
             </section><!-- END COMPONENT -->
 
             <!-- MAP CONTAINER -->
