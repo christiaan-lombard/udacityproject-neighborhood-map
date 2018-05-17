@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { LocationViewModel } from '../models/location';
+
 /**
  *  GeocoderService wraps maps.google.Geocoder
  *  with rxjs observables. Geocode requests are

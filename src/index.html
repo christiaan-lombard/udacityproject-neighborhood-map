@@ -24,79 +24,82 @@
             </nav>
         </header>
 
-        <section class="section-explore search-form" data-bind="with: explore, visible: mode() == 'explore'">
-            <label class="search-label" for="input_search_explore">
-                <i class="material-icons">search</i>
-            </label>
-            <input
-                id="input_search_explore"
-                class="input-search"
-                type="text"
-                name="search"
-                data-bind="textInput: filterText, hasFocus: $parent.mode() == 'explore'"
-                placeholder="Enter city name..."
-                autocomplete="off">
-            <button type="button" class="toggle-btn" data-bind="click: togglePlaces">
-                <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
-            </button>
-            <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
-                <li class="location-item" data-bind="click: $parent.focusLocation">
-                    <span class="location-explore">Explore: </span>
-                    <span data-bind="text: address"></span>
-                </li>
-            </ul>
-            <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
-                <li class="place-item">
-                    <div class="place-info" data-bind="click: $parent.focusPlace">
-                        <h3 class="place-title" data-bind="text: name"></h3>
-                        <p class="place-address" data-bind="text: address"></p>
-                    </div>
-                    <button class="place-add-btn" data-bind="css: {added: isSaved}, click: $parent.toggleSave">
-                        <i class="material-icons">favorite</i>
-                    </button>
-                </li>
-            </ul>
-            <p class="info-message" data-bind="visible: isLocationsEmpty">
-                No locations match your search term.
-            </p>
-            <p class="error-message" data-bind="visible: error, text: error"></p>
-        </section>
-
-        <section class="section-favorite search-form" data-bind="with: favorites, visible: mode() == 'favorite'">
-            <label class="search-label" for="input_search_favorite">
-                <i class="material-icons">search</i>
-            </label>
-            <input
-                id="input_search_favorite"
-                class="input-search"
-                type="text"
-                name="search"
-                data-bind="textInput: filterText, hasFocus: $parent.mode() == 'favorite'"
-                placeholder="Filter favorites..."
-                autocomplete="off">
-            <button type="button" class="toggle-btn" data-bind="click: togglePlaces, visible: places().length">
-                <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
-            </button>
-            <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
-                <li class="place-item">
-                    <div class="place-info" data-bind="click: $parent.focusPlace">
-                        <h3 class="place-title" data-bind="text: name"></h3>
-                        <p class="place-address" data-bind="text: address"></p>
-                    </div>
-                    <button class="place-add-btn" data-bind="click: $parent.removePlace">
-                        <i class="material-icons">favorite_border</i>
-                    </button>
-                </li>
-            </ul>
-            <p class="info-message" data-bind="visible: isPlacesEmpty">
-                You have not added any favorites. Go Explore.
-            </p>
-            <p class="info-message" data-bind="visible: isFilteredEmpty">
-                No results for the given search term.
-            </p>
-        </section>
-
         <main class="main">
+            <section class="section-explore search-form" data-bind="with: explore, visible: mode() == 'explore'">
+                <div class="search-bar">
+                    <label class="search-label" for="input_search_explore">
+                        <i class="material-icons">search</i>
+                    </label>
+                    <input
+                        id="input_search_explore"
+                        class="input-search"
+                        type="text"
+                        name="search"
+                        data-bind="textInput: filterText, hasFocus: $parent.mode() == 'explore'"
+                        placeholder="Enter city name..."
+                        autocomplete="off">
+                    <button type="button" class="toggle-btn" data-bind="click: togglePlaces">
+                        <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
+                    </button>
+                </div>
+                <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
+                    <li class="location-item" data-bind="click: $parent.focusLocation">
+                        <span class="location-explore">Explore: </span>
+                        <span data-bind="text: address"></span>
+                    </li>
+                </ul>
+                <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
+                    <li class="place-item">
+                        <div class="place-info" data-bind="click: $parent.focusPlace">
+                            <h3 class="place-title" data-bind="text: name"></h3>
+                            <p class="place-address" data-bind="text: address"></p>
+                        </div>
+                        <button class="place-add-btn" data-bind="css: {added: isSaved}, click: $parent.toggleSave">
+                            <i class="material-icons">favorite</i>
+                        </button>
+                    </li>
+                </ul>
+                <p class="info-message" data-bind="visible: isLocationsEmpty">
+                    No locations match your search term.
+                </p>
+                <p class="error-message" data-bind="visible: error, text: error"></p>
+            </section>
+
+            <section class="section-favorite search-form" data-bind="with: favorites, visible: mode() == 'favorite'">
+                <div class="search-bar">
+                    <label class="search-label" for="input_search_favorite">
+                        <i class="material-icons">search</i>
+                    </label>
+                    <input
+                        id="input_search_favorite"
+                        class="input-search"
+                        type="text"
+                        name="search"
+                        data-bind="textInput: filterText, hasFocus: $parent.mode() == 'favorite'"
+                        placeholder="Filter favorites..."
+                        autocomplete="off">
+                    <button type="button" class="toggle-btn" data-bind="click: togglePlaces, visible: places().length">
+                        <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
+                    </button>
+                </div>
+                <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
+                    <li class="place-item">
+                        <div class="place-info" data-bind="click: $parent.focusPlace">
+                            <h3 class="place-title" data-bind="text: name"></h3>
+                            <p class="place-address" data-bind="text: address"></p>
+                        </div>
+                        <button class="place-rm-btn" data-bind="click: $parent.removePlace">
+                            <i class="material-icons">remove_circle</i>
+                        </button>
+                    </li>
+                </ul>
+                <p class="info-message" data-bind="visible: isPlacesEmpty">
+                    You have not added any favorites. Go Explore.
+                </p>
+                <p class="info-message" data-bind="visible: isFilteredEmpty">
+                    No results for the given search term.
+                </p>
+            </section>
             <div class="map" id="map"></div>
         </main>
 

@@ -88,6 +88,7 @@ button {
     flex: 0 0 auto;
     background-color: $app-bg-primary;
     color: $app-txt-light;
+    width: 100%;
 
     @include elevate(1);
 
@@ -138,39 +139,45 @@ button {
 }
 
 .search-form {
-    flex-flow: row wrap;
-    align-items: center;
     display: flex;
-    border-bottom: 1px solid $app-bg-status;
+    flex-flow: column nowrap;
     background-color: $app-bg-bar;
 
-    .search-label {
-        display: block;
-        padding: 3px;
-    }
+    .search-bar {
 
-    .input-search {
-        border: none;
-        flex: 1 1 auto;
-        background: transparent;
-        padding-left: 12px;
-        line-height: 36px;
-        vertical-align: middle;
-    }
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
 
-    .toggle-btn {
-        padding: 0;
-        border: none;
-        i {
+        .search-label {
+            display: block;
+            padding: 3px;
+        }
+
+        .input-search {
+            border: none;
+            flex: 1 1 auto;
+            background: transparent;
+            padding-left: 12px;
+            line-height: 36px;
             vertical-align: middle;
-            font-size: 36px;
         }
 
-        &:hover {
-            background-color: $app-bg-hover;
-        }
+        .toggle-btn {
+            padding: 0;
+            border: none;
+            i {
+                vertical-align: middle;
+                font-size: 36px;
+            }
 
+            &:hover {
+                background-color: $app-bg-hover;
+            }
+
+        }
     }
+
 
     .place-list {
         width: 100%;
@@ -212,10 +219,24 @@ button {
                 display: block;
                 width: 36px;
                 height: 36px;
+                flex: 0 0 auto;
 
                 &.added {
                     color: $app-bg-primary;
                 }
+
+                &:hover {
+                    background-color: $app-bg-status;
+                }
+
+            }
+
+            .place-rm-btn {
+                padding: 0;
+                border-radius: 50%;
+                display: block;
+                width: 36px;
+                height: 36px;
 
                 &:hover {
                     background-color: $app-bg-status;
@@ -283,6 +304,30 @@ button {
 
 .map {
     flex: 1 1 auto;
+
+    .place-info-window{
+        max-width: 250px;
+        text-align: center;
+        .name{
+            margin: 0;
+            font-weight: 400;
+            font-size: 18px;
+        }
+
+        .link{
+            display: inline-block;
+            text-decoration: none;
+            color: $app-txt-light;
+            background-color: $app-bg-accent;
+            padding: 12px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+
+    }
+
 }
 
 
@@ -293,16 +338,34 @@ button {
 
 @media screen and (min-width: 620px){
 
+    .app {
+        // flex-flow: row wrap;
+        // align-items: stretch;
+        // align-content: stretch;
+    }
+
     .main {
-        flex-flow: row nowrap;
+        flex-flow: row wrap;
+
+        .search-form {
+            width: 300px;
+            .place-list {
+                overflow-y: auto;
+                max-height: unset;
+            }
+        }
+
+        .map {
+            flex: 1 1 auto;
+        }
+
     }
 
-    .places-section {
-        order: 0;
-        flex: 0 0 250px;
+    .header{
+        align-self: flex-start;
     }
 
-    .map {
-        order: 1;
+    .header .nav .nav-item span {
+        display: inline;
     }
 }

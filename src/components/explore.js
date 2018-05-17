@@ -1,12 +1,8 @@
 import { BehaviorSubject } from 'rxjs';
 import { map, debounceTime, filter, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import ko from 'knockout';
+import { RECOMMENDED_LOCATIONS } from '../services/locations-seed';
 
-export const RECOMMENDED_PLACES = [
-    {
-        
-    }
-];
 
 
 export class ExploreViewModel {
@@ -30,17 +26,21 @@ export class ExploreViewModel {
         this.focusLocation = (location) => {
             console.log('focus', location);
 
+            if(location.geoBounds){
+                this._mapService.fitBounds(location.geoBounds);
+            }else{
+                this._mapService.setCenter(location.geoLocation);
+            }
+
             this.focusedLocation(location);
-
-            this._mapService.setCenter(location.geoLocation);
-            this.searchPlaces(location.geoLocation);
-
-            this.lastSearch = location.address;
             this.filterText(location.address);
             this.showLocations(false);
+            this.searchPlaces(location.geoLocation);
         };
 
         this.focusPlace = (place) => {
+
+            this._mapService.setZoom(12);
 
             this._placesService.getDetail(place)
                                .subscribe(detail => {
@@ -133,6 +133,11 @@ export class ExploreViewModel {
                     }
                 );
 
+        if(!this.focusedLocation()){
+            let location = this._getRandomLocation();
+            this.focusLocation(location);
+        }
+
     }
 
     blur(){
@@ -153,5 +158,9 @@ export class ExploreViewModel {
                 this.focusPlace(place);
             });
         });
+    }
+
+    _getRandomLocation(){
+        return RECOMMENDED_LOCATIONS[Math.floor(Math.random() * RECOMMENDED_LOCATIONS.length)];
     }
 }

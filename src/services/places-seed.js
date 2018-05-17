@@ -2,156 +2,93 @@
 
 export const PLACES_SEED = [
     {
-        "id": "4b7ada43f964a52003412fe3",
-        "name": "Den Anker",
-        "address": "V & A Waterfront (V & A Waterfront), Cape Town, South Africa",
+        "id": "4d821092bede5481ef540ad1",
+        "name": "Spice Route",
+        "address": "Agter Suid Paarl Road, Paarl, 7624, South Africa",
         "geoLocation": {
-            "lat": -33.90609057801225,
-            "lng": 18.42112874127524
+            "lat": -33.763847650765754,
+            "lng": 18.918949966040618
         }
     },
     {
-        "id": "4b588727f964a520505c28e3",
-        "name": "The Fireman's Arms",
-        "address": "27 - 29 Mechau St, Cape CBD (at Buitengracht St), Cape Town, 8001, South Africa",
-        "geoLocation": {
-            "lat": -33.91687788364146,
-            "lng": 18.420969827718736
-        }
-    },
-    {
-        "id": "559563c9498e31f9361ae30d",
-        "name": "Tiger's Milk",
-        "address": "44 Long Street, Cape Town, South Africa",
-        "geoLocation": {
-            "lat": -33.921459377843895,
-            "lng": 18.42018756610392
-        }
-    },
-    {
-        "id": "4b65a84ef964a52027f82ae3",
-        "name": "Mitchell's Brewery",
-        "address": "Victoria & Alfred Waterfront (Dock Rd), Cape Town, 8002, South Africa",
-        "geoLocation": {
-            "lat": -33.90522948787508,
-            "lng": 18.419401544186
-        }
-    },
-    {
-        "id": "54d63408498e31d1e8e09e57",
-        "name": "The Gin Bar",
-        "address": "64A Wale Street, Cape Town, 8000, South Africa",
-        "geoLocation": {
-            "lat": -33.92273288691907,
-            "lng": 18.417150034224644
-        }
-    },
-    {
-        "id": "521898c511d265d4f79bf211",
-        "name": "House Of Machines",
-        "address": "84 Shortmarket Street, Cape Town Central, Cape Town, 8001, South Africa",
-        "geoLocation": {
-            "lat": -33.9214,
-            "lng": 18.418682
-        }
-    },
-    {
-        "id": "4b7b2c08f964a520c2552fe3",
-        "name": "The Shack",
-        "address": "32 De Villiers St. (btw Roeland & Stirling), Zonnebloem, 8001, South Africa",
-        "geoLocation": {
-            "lat": -33.93216586518413,
-            "lng": 18.425484696930056
-        }
-    },
-    {
-        "id": "502e9348e4b047efecff0430",
-        "name": "Aces 'n Spades",
-        "address": "62 Hout St, Cape Town, 8001, South Africa",
-        "geoLocation": {
-            "lat": -33.92138527642458,
-            "lng": 18.42000551633646
-        }
-    },
-    {
-        "id": "4bf9949c8d30d13a6d790218",
-        "name": "Van Hunks",
-        "address": "Kloof St. (Upper Union St), Cape Town, 8001, South Africa",
-        "geoLocation": {
-            "lat": -33.93196743543509,
-            "lng": 18.40876295687397
-        }
-    },
-    {
-        "id": "5665bf99498e347f756b522c",
-        "name": "Arcade Cafe",
-        "address": "152 Bree St, Cape Town, South Africa",
-        "geoLocation": {
-            "lat": -33.92406453823602,
-            "lng": 18.41491573221311
-        }
-    },
-    {
-        "id": "4b913991f964a52061ab33e3",
-        "name": "Foresters Arms",
-        "address": "52 Newlands Ave. (Manson Rd.), Cape Town, 7700, South Africa",
-        "geoLocation": {
-            "lat": -33.971451380947876,
-            "lng": 18.4538693634699
-        }
-    },
-    {
-        "id": "51ebca525019fb668b6311d9",
-        "name": "Devil's Peak Brewing Company (The Taproom)",
-        "address": "95 Durham Ave (Durham Ave), Woodstock, South Africa",
-        "geoLocation": {
-            "lat": -33.93408429796424,
-            "lng": 18.460315591431804
-        }
-    },
-    {
-        "id": "52a0c7cf11d26620da3038cb",
-        "name": "Pinelands Social Club",
+        "id": "52a8bf69498e46d020e60924",
+        "name": "EJ's",
         "address": "South Africa",
         "geoLocation": {
-            "lat": -33.93629423549098,
-            "lng": 18.509037921663026
+            "lat": -33.709931,
+            "lng": 18.97583
         }
     },
     {
-        "id": "529a0307498e78bd638009a0",
-        "name": "The Leopard Bar",
-        "address": "12 Apostles Hotel and Spa (Victoria Road), Cape Town, South Africa",
+        "id": "55576b0e498e23395a06e309",
+        "name": "Bar Di Bar",
+        "address": "R301 Hartebees Farm, Paarl, South Africa",
         "geoLocation": {
-            "lat": -33.9833368426118,
-            "lng": 18.358957336805545
+            "lat": -33.76539334770274,
+            "lng": 18.958107470745208
         }
     },
     {
-        "id": "4b54a23ff964a520e5c327e3",
-        "name": "Perseverance Tavern",
-        "address": "83 Buitenkant Street, Gardens, Cape Town, 8001, South Africa",
+        "id": "5a969bf731ac6c13bb963dc3",
+        "name": "Berg River Brewery",
+        "address": "Paarl, 7646, South Africa",
         "geoLocation": {
-            "lat": -33.93051235670366,
-            "lng": 18.421024752440776
+            "lat": -33.709625,
+            "lng": 18.973954
         }
     },
     {
-        "id": "4bd570006f64952182036fec",
-        "name": "Ferrymans Tavern",
-        "address": "V & A Waterfront, Cape Town, 8002, South Africa",
+        "id": "4fe352e0e4b09319dba871b3",
+        "name": "Crown Bar",
+        "address": "Main, Paarl, South Africa",
         "geoLocation": {
-            "lat": -33.905162311919455,
-            "lng": 18.419517947730846
+            "lat": -33.722465,
+            "lng": 18.963316
         }
     },
     {
-        "id": "4b7daff2f964a5207ace2fe3",
-        "name": "The Dubliner",
-        "address": "251 Long St (at Green St), Cape Town, 8001, South Africa",
+        "id": "5752db5c498ef777130a2cfa",
+        "name": "The Alchemist",
+        "address": "South Africa",
         "geoLocation": {
-            "lat": -33.925948560052774,
-            "lng": 18.41534358235531
+            "lat": -33.385113,
+            "lng": 18.89609
+        }
+    },
+    {
+        "id": "4ba76f01f964a5208d9339e3",
+        "name": "The Farmers' Arms",
+        "address": "South Africa",
+        "geoLocation": {
+            "lat": -33.353678,
+            "lng": 18.872149
+        }
+    },
+    {
+        "id": "4bdef070c3392d7f7d9c9bd5",
+        "name": "The Trumpet Tree",
+        "address": "84 Dorp Street, Stellenbosch, South Africa",
+        "geoLocation": {
+            "lat": -33.93938515345174,
+            "lng": 18.855748861461073
+        }
+    },
+    {
+        "id": "4b86bac0f964a520489931e3",
+        "name": "Aandklas",
+        "address": "43A Bird Street, Stellenbosch, 7600, South Africa",
+        "geoLocation": {
+            "lat": -33.93412163793121,
+            "lng": 18.85874960309748
+        }
+    },
+    {
+        "id": "514c23a8164883a0713b6309",
+        "name": "Stellenbrau Brewery",
+        "address": "Vredenburg Road, Stellenbosch, South Africa",
+        "geoLocation": {
+            "lat": -33.942783252630086,
+            "lng": 18.828218307636728
         }
     }
 ];

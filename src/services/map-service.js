@@ -33,14 +33,19 @@ export class MapService {
         this.map.fitBounds(bounds);
     }
 
+    setZoom(level){
+        this.map.setZoom(level);
+    }
+
     showInfo(place, details){
         console.log('info', place);
         this.infoWindow.setContent(`
-            <h4>${place.name}</h4>
-            <p>Address: ${place.address}</p>
-            <p>${details.categories}</p>
-            <p>Rating: ${details.rating}</p>
-            <a href="${details.link}" target="_blank">MORE INFO</a>
+            <div class="place-info-window">
+                <h4 class="name">${place.name}</h4>
+                <p class="address">${place.address}</p>
+                <p class="categories">${details.categories}</p>
+                <a class="link"href="${details.link}" target="_blank">MORE INFO</a>
+            </div>
         `);
         this.infoWindow.open(this.map, place.marker);
         this.setCenter(place.geoLocation);
@@ -61,7 +66,7 @@ export class MapService {
     placeMarker(place){
         let marker = new google.maps.Marker( {
             map: this.map,
-            animation: google.maps.Animation.DROP,
+            // animation: google.maps.Animation.DROP,
             position: place.geoLocation,
             title: place.name
         });
