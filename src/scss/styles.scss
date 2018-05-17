@@ -237,6 +237,7 @@ button {
                 display: block;
                 width: 36px;
                 height: 36px;
+                flex: 0 0 auto;
 
                 &:hover {
                     background-color: $app-bg-status;
@@ -336,7 +337,7 @@ button {
 
 
 
-@media screen and (min-width: 620px){
+@media screen and (min-width: 650px){
 
     .app {
         // flex-flow: row wrap;
