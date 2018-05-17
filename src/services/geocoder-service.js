@@ -25,8 +25,6 @@ export class GeocoderService {
 
             let cancelled = false;
 
-            console.debug("GeocoderService: geocode %s", address);
-
             this._googleGeocoder.geocode({address}, (results, status) => {
 
                 if(cancelled) return;
@@ -39,7 +37,6 @@ export class GeocoderService {
                     observer.next([]);
                     observer.complete();
                 }else{
-                    console.error("GeocoderService: Error getting results", results, status);
                     observer.error(status);
                 }
 

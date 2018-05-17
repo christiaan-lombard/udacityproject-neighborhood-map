@@ -135,8 +135,6 @@ export class PlacesService {
      */
     _save(){
 
-        console.log('save', this._places$.value);
-
         let ojects = this._places$.value.map(place => place.serialize());
 
         let value = JSON.stringify(ojects);
@@ -154,10 +152,8 @@ export class PlacesService {
         let parsed = JSON.parse(stored);
         if(Array.isArray(parsed)){
             places = parsed;
-            console.info('PlacesService: loaded from storage');
         }else{
             places = PLACES_SEED;
-            console.info('PlacesService: using seed');
         }
         this._places$.next(places.map(obj => this._objectToPlace(obj)));
     }

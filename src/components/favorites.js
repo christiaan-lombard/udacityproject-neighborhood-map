@@ -97,8 +97,6 @@ export class FavoritesViewModel {
             .pipe(debounceTime(200))
             .subscribe(changes => {
 
-                console.log('filter favorites', changes);
-
                 let [filterText, favorites] = changes;
 
                 if(favorites.length > 0){

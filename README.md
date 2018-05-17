@@ -2,8 +2,49 @@
 
 This is my project submission for the Udacity Fullstack Developer Nanodegree, Frontend Module, Neighborhood Project.
 
+This project showcases a single page web application using Knockout and RxJS Observables.
+
+**Features:**
+ - Search for a location by address using Google Geocoder service
+ - Find nearby places/venues, and get venue details using the Foursquare API
+ - Presents places/venues on a Google Map
+ - Store/remove favorite places (stored in browser local storage)
 
 
+## Installation
+
+Install dependencies with `npm install`
+
+## Development Commands
+
+This project uses Webpack 4 to bundle and serve resources.
+
+ - `npm run serve` - Launch webserver and watch changes
+ - `npm run watch` - Build dist and watch changes
+ - `npm run dev` - Bundle development build to `/dist`
+ - `npm run prod` - Bundle production build to `/dist`
+
+## Run Application
+
+Either open `dist/index.html` in a brower or launch the dev server using `npm run serve`.
+
+## Screenshots
+
+*Explore Location - Desktop Size*
+
+![](screenshots/explore_desktop.png)
+
+*Explore Location - Mobile*
+
+![](screenshots/explore_paarl.png)
+
+*Show Info*
+
+![](screenshots/show_info.png)
+
+*Filter Favorites*
+
+![](screenshots/filter_favorites.png)
 
 ## Udacity Project Specifications
 

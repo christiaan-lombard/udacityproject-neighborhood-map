@@ -50,7 +50,6 @@ class AppViewModel {
 
         // switch mode explore
         this.switchModeExplore = () => {
-            console.log('switchModeExplore');
             this.mode('explore');
             this.favorites.blur();
             this.explore.focus();
@@ -58,7 +57,6 @@ class AppViewModel {
 
         // switch mode favorite
         this.switchModeFavorite = () => {
-            console.log('switchModeFavorite');
             this.mode('favorite');
             this.explore.blur();
             this.favorites.focus();

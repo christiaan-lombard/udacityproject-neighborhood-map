@@ -60,10 +60,7 @@ export class FoursquareService {
         return ajax(`https://api.foursquare.com/v2/${urlSlug}${query}`)
                     .pipe(
                         map(resource => {
-
                             let result = resource.response.response;
-
-                            console.log(result);
                             return result;
                         })
                     );

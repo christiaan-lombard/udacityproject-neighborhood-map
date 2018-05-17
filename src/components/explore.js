@@ -49,7 +49,6 @@ export class ExploreViewModel {
          * @param {LocationViewModel} location
          */
         this.selectLocation = (location) => {
-            console.log('focus', location);
 
             if(location.geoBounds){
                 this._mapService.fitBounds(location.geoBounds);
@@ -124,7 +123,6 @@ export class ExploreViewModel {
             .geocode(text)
             .subscribe(
                 locations => {
-                    console.log('locations', locations);
                     this.isLocationsEmpty(locations.length === 0);
                     this.locations(locations);
                     this.showLocations(true);

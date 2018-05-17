@@ -63,7 +63,6 @@ export class MapService {
      * @param {PlaceDetailViewModel} details
      */
     showInfo(place, details){
-        console.log('info', place);
         this.infoWindow.setContent(`
             <div class="place-info-window">
                 <h4 class="name">${place.name}</h4>
