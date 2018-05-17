@@ -76,9 +76,16 @@ export class ExploreViewModel {
             this._mapService.setZoom(18);
 
             this._placesService.getDetail(place)
-                               .subscribe(detail => {
-                                   this._mapService.showInfo(place, detail);
-                               });
+                               .subscribe(
+                                    detail => {
+                                        this._mapService.showInfo(place, detail);
+                                        this.error(null);
+                                    },
+                                    error => {
+                                        this._mapService.showError(place, 'Error retreiving venue details...');
+                                        this.error('Error retreiving venue details...');
+                                    }
+                                );
         };
 
         /**
@@ -208,6 +215,8 @@ export class ExploreViewModel {
             this._filterTextSub.unsubscribe();
             this._filterTextSub = null;
         }
+        this._mapService.clearMarkers();
+        this._mapService.closeInfo();
     }
 
     /**

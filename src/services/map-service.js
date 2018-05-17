@@ -82,6 +82,29 @@ export class MapService {
     }
 
     /**
+     * Show an info window at the given place
+     * presenting an error message
+     *
+     * @param {PlaceViewModel} place
+     * @param {PlaceDetailViewModel} details
+     */
+    showError(place, message){
+        this.infoWindow.setContent(`
+            <div class="place-info-window">
+                <p class="error">${message}</p>
+            </div>
+        `);
+
+        place.marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(() => {
+            place.marker.setAnimation(null);
+        }, 800);
+
+        this.infoWindow.open(this.map, place.marker);
+        this.setCenter(place.geoLocation);
+    }
+
+    /**
      * Close the info window
      */
     closeInfo(){

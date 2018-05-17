@@ -60,6 +60,12 @@ export class FoursquareService {
         return ajax(`https://api.foursquare.com/v2/${urlSlug}${query}`)
                     .pipe(
                         map(resource => {
+                            console.log('FOURSQUARE RES', resource);
+
+                            if(resource.status !== 200){
+                                throw Error("Foursquare API error");
+                            }
+
                             let result = resource.response.response;
                             return result;
                         })

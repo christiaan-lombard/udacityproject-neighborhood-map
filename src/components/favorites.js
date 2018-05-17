@@ -23,6 +23,7 @@ export class FavoritesViewModel {
      * @param {PlacesService} placesService
      */
     constructor(mapService, geocoderService, placesService){
+
         this._mapService = mapService;
         this._geocoderService = geocoderService;
         this._placesService = placesService;
@@ -32,10 +33,9 @@ export class FavoritesViewModel {
 
         this.filterText = ko.observable('');
         this.showPlaces = ko.observable(true);
-        this.isPlacesEmpty = ko.observable(false);
-        this.isFilteredEmpty = ko.observable(false);
 
         this.places = ko.observableArray([]);
+        this.error = ko.observable(null);
 
         /**
          * Toggle show/hide places
@@ -60,11 +60,21 @@ export class FavoritesViewModel {
          */
         this.selectPlace = (place) => {
 
-            this._placesService.getDetail(place)
-                               .subscribe(detail => {
-                                   this._mapService.showInfo(place, detail);
-                               });
+            this._mapService.setCenter(place.geoLocation);
+            this._mapService.setZoom(18);
 
+            this._placesService
+                .getDetail(place)
+                .subscribe(
+                    detail => {
+                        this._mapService.showInfo(place, detail);
+                        this.error(null);
+                    },
+                    error => {
+                        this._mapService.showError(place, 'Error retreiving venue details...');
+                        this.error('Error retreiving venue details...');
+                    }
+                );
         };
 
         /**
@@ -76,9 +86,25 @@ export class FavoritesViewModel {
             this._placesService.remove(place);
         };
 
-        // pass filter text to the BehaviorSubject
-        this.filterText.subscribe(text => {
-            this._filterText$.next(text);
+        /**
+         * Computed array of filtered places
+         * based on filterText
+         */
+        this.filteredPlaces = ko.computed(() => {
+            let filterText = this.filterText().toLowerCase();
+            if(filterText && filterText.length > 1){
+                return ko.utils.arrayFilter(this.places(), place => {
+                                    let search = place.name.toLowerCase();
+                                    return search.search(filterText) !== -1;
+                                });
+            }
+            return this.places();
+        }).extend({ throttle: 500 });
+
+        // listen for filtered item changes
+        // to update markers
+        this.filteredPlaces.subscribe(filtered => {
+            this.updateMapMarkers();
         });
 
     }
@@ -89,38 +115,14 @@ export class FavoritesViewModel {
      */
     focus(){
 
-        let favorites$ = this._placesService.favorites();
-
-        // combine stream list of favorites with filter text stream
-        // to poulate the places list
-        this._filterSub = combineLatest(this._filterText$, favorites$)
-            .pipe(debounceTime(200))
-            .subscribe(changes => {
-
-                let [filterText, favorites] = changes;
-
-                if(favorites.length > 0){
-                    this.isPlacesEmpty(false);
-                }else{
-                    this.isPlacesEmpty(true);
-                }
-
-                if(filterText && filterText.length > 1){
-                    favorites = favorites
-                                    .filter(place => {
-                                        let target = filterText.toLowerCase();
-                                        let search = place.name.toLowerCase();
-                                        return search.search(target) !== -1;
-                                    });
-                    this.isFilteredEmpty(favorites.length === 0);
-                }else{
-                    this.isFilteredEmpty(false);
-                }
-
-                this.places(favorites);
-                this.showPlaces(true);
-                this.updateMapMarkers();
-            });
+        // pass stream of favorite
+        // places to knockout observable
+        this._filterSub =
+            this._placesService
+                .favorites()
+                .subscribe(favorites => {
+                    this.places(favorites);
+                });
     }
 
     /**
@@ -139,7 +141,7 @@ export class FavoritesViewModel {
      * Update the map markers with the current places
      */
     updateMapMarkers(){
-        let places = this.places();
+        let places = this.filteredPlaces();
         this._mapService.fitPlaces(places);
         this._mapService.clearMarkers();
 

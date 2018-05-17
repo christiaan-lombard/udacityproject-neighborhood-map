@@ -46,6 +46,10 @@
                         <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
                     </button>
                 </div>
+                <p class="info-message" data-bind="visible: showLocations() && locations().length === 0">
+                    No locations match your search term.
+                </p>
+                <p class="error-message" data-bind="visible: error() !== null, text: error"></p>
                 <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
                     <li class="location-item" data-bind="click: $parent.selectLocation">
                         <span class="location-explore">Explore: </span>
@@ -63,10 +67,6 @@
                         </button>
                     </li>
                 </ul>
-                <p class="info-message" data-bind="visible: isLocationsEmpty">
-                    No locations match your search term.
-                </p>
-                <p class="error-message" data-bind="visible: error, text: error"></p>
             </section><!-- END EXPLORE COMPONENT -->
 
             <!-- FAVORITES COMPONENT -->
@@ -88,7 +88,7 @@
                         <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
                     </button>
                 </div>
-                <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
+                <ul class="place-list" data-bind="visible: showPlaces, foreach: filteredPlaces">
                     <li class="place-item">
                         <div class="place-info" data-bind="click: $parent.selectPlace">
                             <h3 class="place-title" data-bind="text: name"></h3>
@@ -99,12 +99,13 @@
                         </button>
                     </li>
                 </ul>
-                <p class="info-message" data-bind="visible: isPlacesEmpty">
+                <p class="info-message" data-bind="visible: places().length === 0">
                     You have not added any favorites. Go Explore.
                 </p>
-                <p class="info-message" data-bind="visible: isFilteredEmpty">
+                <p class="info-message" data-bind="visible: filteredPlaces().length === 0">
                     No results for the given search term.
                 </p>
+                <p class="error-message" data-bind="visible: error() !== null, text: error"></p>
             </section><!-- END COMPONENT -->
 
             <!-- MAP CONTAINER -->
