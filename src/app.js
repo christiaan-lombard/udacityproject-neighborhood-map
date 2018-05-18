@@ -73,7 +73,10 @@ class AppViewModel {
  *  Initializes the application and services and applies knockout bindings
  *
  */
-window.initMap = function() {
+window.initMap = function(error) {
+
+    console.log(error);
+
     let mapService = new MapService();
     let geocoderService = new GeocoderService();
     let placesService = new PlacesService();
@@ -83,6 +86,7 @@ window.initMap = function() {
 
     document.getElementById('preloader')
             .style.display = 'none';
+
 };
 
 window.loadMapError = function(){

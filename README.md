@@ -50,6 +50,15 @@ This project uses Webpack 4 to bundle and serve resources.
 
 ![](screenshots/filter_favorites.png)
 
+
+*InvalidKeyMapError*
+
+![](screenshots/invalid_key_map_error.png)
+
+*Maps API script load error*
+
+![](screenshots/map_load_error.png)
+
 ## Udacity Project Specifications
 
 ### Project Overview
