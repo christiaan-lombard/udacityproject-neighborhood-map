@@ -4,25 +4,20 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let WebpackConfig = {
-    devtool: 'source-map',
-    entry: './src/app.js',
+    // devtool: 'source-map',
+    entry: {
+        style: './src/scss/styles.scss',
+        app: './src/app.js',
+    },
     output: {
-        filename: 'app.bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
-            // {
-            //     test: /\.html$/,
-            //     loader: 'html-loader'
-            // },
             {
                 test: /\.scss$/,
                 loaders: ['style-loader', 'css-loader', 'sass-loader']
-            },
-            {
-                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-                loader: 'file-loader'
             },
             {
                 test: /\.js$/,

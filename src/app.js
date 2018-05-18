@@ -2,7 +2,6 @@
  * @author base1.christiaan@gmail.com (Christiaan Lombard)
  */
 
-import './scss/styles.scss';
 import ko from 'knockout';
 import { BehaviorSubject, Observable, combineLatest, of, Subject } from 'rxjs';
 import { map, debounceTime, filter, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
