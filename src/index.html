@@ -67,6 +67,9 @@
                         </button>
                     </li>
                 </ul>
+                <a class="attribution" href="https://foursquare.com/" target="_blank">
+                    <img src="https://www.dropbox.com/sh/kf7rywth02sba55/AACfTHM8lyHGalyUMoCbSpX5a/Logos/Developer/Powered-by-Foursquare-one-color-300.png?dl=1" alt="Powered by Foursquare">
+                </a>
             </section><!-- END EXPLORE COMPONENT -->
 
             <!-- FAVORITES COMPONENT -->
@@ -106,6 +109,9 @@
                         </button>
                     </li>
                 </ul>
+                <a class="attribution" href="https://foursquare.com/" target="_blank">
+                    <img src="https://www.dropbox.com/sh/kf7rywth02sba55/AACfTHM8lyHGalyUMoCbSpX5a/Logos/Developer/Powered-by-Foursquare-one-color-300.png?dl=1" alt="Powered by Foursquare">
+                </a>
             </section><!-- END COMPONENT -->
 
             <!-- MAP CONTAINER -->
@@ -113,6 +119,16 @@
 
         </main>
 
+        <div id="preloader" class="preloader">
+            <h1>Beerme</h1>
+            <div class="spinner" id="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+            <p id="init_error_message">
+                Error initializing app... <a href="/">Reload</a>
+            </p>
+        </div>
 
     </div><!-- END APP -->
 
@@ -122,7 +138,7 @@
     <% } %>
 
     <!-- Google Maps Script -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMeEXzBXlyiDrvaaeUNHpZqdrv14E--Po&callback=initMap&libraries=places" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMeEXzBXlyiDrvaaeUNHpZqdrv14E--Po&callback=initMap&libraries=places" onerror="loadMapError()" async defer></script>
 
 </body>
 </html>

@@ -46,7 +46,7 @@ class AppViewModel {
 
         // switching the mode selects which component
         // to show, 'explore' or 'favorite'
-        this.mode = ko.observable('explore');
+        this.mode = ko.observable('favorite');
 
         // switch mode explore
         this.switchModeExplore = () => {
@@ -63,7 +63,7 @@ class AppViewModel {
         };
 
         // default mode
-        this.switchModeExplore();
+        this.switchModeFavorite();
     }
 
 }
@@ -81,6 +81,17 @@ window.initMap = function() {
     let app = new AppViewModel(mapService, geocoderService, placesService);
 
     ko.applyBindings(app);
+
+    document.getElementById('preloader')
+            .style.display = 'none';
+};
+
+window.loadMapError = function(){
+    console.error('Error initializing app...');
+    document.getElementById('init_error_message')
+            .style.display = 'block';
+    document.getElementById('spinner')
+            .style.display = 'none';
 };
 
 
