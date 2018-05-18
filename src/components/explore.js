@@ -29,8 +29,6 @@ export class ExploreViewModel {
         this._mapService = mapService;
         this._geocoderService = geocoderService;
         this._placesService = placesService;
-        this._filterText$ = new BehaviorSubject('');
-        this._filterTextSub = null;
 
         this.filterText = ko.observable('');
         this.places = ko.observableArray([]);
@@ -58,7 +56,6 @@ export class ExploreViewModel {
             }
 
             this.focusedLocation(location);
-            this.filterText(location.address);
             this.showLocations(false);
             this.searchPlaces(location.geoLocation);
         };
@@ -114,34 +111,27 @@ export class ExploreViewModel {
             }
         };
 
-        this.filterText.subscribe(value => {
-            this._filterText$.next(value);
+        /**
+         * Computed array of filtered places
+         * based on filterText
+         */
+        this.filteredPlaces = ko.computed(() => {
+            let filterText = this.filterText().toLowerCase();
+            if(filterText && filterText.length > 1){
+                return ko.utils.arrayFilter(this.places(), place => {
+                                    let search = place.name.toLowerCase();
+                                    return search.search(filterText) !== -1;
+                                });
+            }
+            return this.places();
+        }).extend({ throttle: 500 });
+
+        // listen for filtered item changes
+        // to update markers
+        this.filteredPlaces.subscribe(filtered => {
+            this.updateMapMarkers();
         });
 
-    }
-
-    /**
-     * Search locations matching the given address
-     *
-     * @param {string} text
-     */
-    searchLocations(text){
-        this._geocoderService
-            .geocode(text)
-            .subscribe(
-                locations => {
-                    this.isLocationsEmpty(locations.length === 0);
-                    this.locations(locations);
-                    this.showLocations(true);
-                    this.error(null);
-                },
-                error => {
-                    this.error('Oops! Error retreiving location results...');
-                    this.locations([]);
-                    this.showLocations(false);
-                    this.isLocationsEmpty(false);
-                }
-            );
     }
 
     /**
@@ -174,36 +164,11 @@ export class ExploreViewModel {
      */
     focus(){
         this.updateMapMarkers();
+        this.filterText('');
 
-        // subscribe to filter input changes,
-        // debounce input, initiate search
-        this._filterTextSub =
-            this._filterText$
-                .pipe(
-                    debounceTime(500),
-                    filter(text => {
-
-                        let focused =
-                            this.focusedLocation() ?
-                                this.focusedLocation().address : null;
-
-                        return text &&
-                                text.length > 1 &&
-                                text !== focused;
-                    })
-                )
-                .subscribe(
-                    text => {
-                        this.searchLocations(text);
-                    }
-                );
-
-        // select a random location if not currently selected
-        if(!this.focusedLocation()){
-            let location = this._getRandomLocation();
-            this.selectLocation(location);
-        }
-
+        // select a random location
+        let location = this._getRandomLocation();
+        this.selectLocation(location);
     }
 
     /**
@@ -211,10 +176,6 @@ export class ExploreViewModel {
      *  - unsubscribes from change stream
      */
     blur(){
-        if(this._filterTextSub){
-            this._filterTextSub.unsubscribe();
-            this._filterTextSub = null;
-        }
         this._mapService.clearMarkers();
         this._mapService.closeInfo();
     }
@@ -223,7 +184,7 @@ export class ExploreViewModel {
      * Update the map markers with the current places
      */
     updateMapMarkers(){
-        let places = this.places();
+        let places = this.filteredPlaces();
         this._mapService.fitPlaces(places);
         this._mapService.clearMarkers();
 

@@ -40,7 +40,7 @@
                         type="text"
                         name="search"
                         data-bind="textInput: filterText, hasFocus: $parent.mode() == 'explore'"
-                        placeholder="Enter city name..."
+                        placeholder="Filter venues..."
                         autocomplete="off">
                     <button type="button" class="toggle-btn" data-bind="click: togglePlaces">
                         <i class="material-icons" data-bind="text: toggleButtonIcon"></i>
@@ -50,13 +50,7 @@
                     No locations match your search term.
                 </p>
                 <p class="error-message" data-bind="visible: error() !== null, text: error"></p>
-                <ul class="location-list" data-bind="foreach: locations, visible: showLocations">
-                    <li class="location-item" data-bind="click: $parent.selectLocation">
-                        <span class="location-explore">Explore: </span>
-                        <span data-bind="text: address"></span>
-                    </li>
-                </ul>
-                <ul class="place-list" data-bind="visible: showPlaces, foreach: places">
+                <ul class="place-list" data-bind="visible: showPlaces, foreach: filteredPlaces">
                     <li class="place-item">
                         <div class="place-info" data-bind="click: $parent.selectPlace">
                             <h3 class="place-title" data-bind="text: name"></h3>
@@ -134,9 +128,9 @@
 
     <!-- Injected JS Chunks -->
     
-        <script src="style.bundle.js?16f92b66af72026c9bde"></script>
+        <script src="style.bundle.js?660d53a813a6ab5f0402"></script>
     
-        <script src="app.bundle.js?16f92b66af72026c9bde"></script>
+        <script src="app.bundle.js?660d53a813a6ab5f0402"></script>
     
 
     <!-- Google Maps Script -->

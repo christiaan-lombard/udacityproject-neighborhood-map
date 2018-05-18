@@ -30,4 +30,13 @@ export const RECOMMENDED_LOCATIONS = [
         "address": "Knysna, South Africa",
         "geoBounds": null,
     },
+    {
+        "placeId": "ChIJlbR-5x5WMxwRcsIGczDNadA",
+        "geoLocation": {
+            "lat" : -33.0547004,
+            "lng" : 18.0657939
+        },
+        "address": "Langebaan, South Africa",
+        "geoBounds": null,
+    }
 ];
