@@ -22,12 +22,12 @@ export const RECOMMENDED_LOCATIONS = [
         "geoBounds": null,
     },
     {
-        "placeId": "ChIJrYtLqoAHzR0RueimdhBPEW0",
+        "placeId": "ChIJ2QwBlkDqeB4Rzc5QdeG5Kr4",
         "geoLocation": {
-            "lat" : -32.595174,
-            "lng" : 26.9322553
+            "lat" : -34.0350856,
+            "lng" : 23.0464693
         },
-        "address": "Hogsback, 5721, South Africa",
+        "address": "Knysna, South Africa",
         "geoBounds": null,
-    }
+    },
 ];

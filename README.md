@@ -30,6 +30,10 @@ This project uses Webpack 4 to bundle and serve resources.
 
 ## Screenshots
 
+*Explore Locations*
+
+![](https://udacity-reviews-uploads.s3.us-west-2.amazonaws.com/_attachments/4839/1526572684/mobrespons.gif)
+
 *Explore Location - Desktop Size*
 
 ![](screenshots/explore_desktop.png)
